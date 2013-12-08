@@ -1,0 +1,10 @@
+<h3>Welcome to ZSJ</h3>
+<br/>
+<a href="{% url 'meetings:createMtn' %}" > Create new meetings</a>
+<br/>
+<form action="{% url 'meetings:result' %}" method="post"> 
+{% csrf_token %}
+<input type="textarea" name="meeting_id" />
+<input type="submit" value="view result" />
+</form>
+<br/>

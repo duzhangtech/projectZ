@@ -1,0 +1,15 @@
+
+
+<h1>{{ meeting.name }}</h1>
+
+<ul>
+	<ul>These people participate in the survey: </ul>
+{% for choice in meeting.choice_set.all %}
+    <li>{{ choice.name }}</li><br/>
+{% endfor %}
+</ul>
+
+<ul>The calculation suggests {{result}} is available for everyone :)</ul>
+<ul>Thanks for using ZSJ!</ul>
+
+<a href="{% url 'meetings:createMtn' %}">create another meeting</a>

@@ -1,0 +1,69 @@
+<head>
+    <script language="javascript" type="text/javascript">
+function changeTo60(){
+document.getElementById('mydivtag').innerHTML = 
+    '{% for clock in morningRange %}' +
+    '{% for day in date %}' +
+    '<input type="checkbox"n ame="{{day}}{{clock}}am" id="{{day}}{{clock}}am"  value="1"/> <label for="{{day}}{{clock}}am">{{clock}}:00 AM</label>' +
+    '{% endfor %}' +
+    '<br/>' +
+    '{% endfor %}' +
+
+    '{% for clock in afternoonRange %}' +
+    '{% for day in date %}' +
+    '<input type="checkbox" name="{{day}}{{clock}}pm" id="{{day}}{{clock}}pm"  value="1"/> <label for="{{day}}{{clock}}pm">{{clock}}:00 PM</label>' +
+    '{% endfor %}' +
+    '<br/>' +
+    '{% endfor %}' ;}
+
+function changeTo30(){
+document.getElementById('mydivtag').innerHTML = 
+    '{% for clock in morningRange %}' +
+    '{% for day in date %}' +
+    '<input type="checkbox"n ame="{{day}}{{clock}}am" id="{{day}}{{clock}}am"  value="1"/> <label for="{{day}}{{clock}}am">{{clock}}:00 AM</label>' +
+    '{% endfor %}' +
+    '<br/>' +    
+ '{% for day in date %}' +
+        '<input type="checkbox" name="{{day}}{{clock}}am2" id="{{day}}{{clock}}am2"  value="1"/> <label for="{{day}}{{clock}}am2">{{clock}}:30 AM</label>' +
+    '{% endfor %}' +
+    '<br/>' +
+    '{% endfor %}' +
+
+    '{% for clock in afternoonRange %}' +
+    '{% for day in date %}' +
+    '<input type="checkbox"name="{{day}}{{clock}}pm" id="{{day}}{{clock}}pm"  value="1"/> <label for="{{day}}{{clock}}pm">{{clock}}:00 PM</label>' +
+    '{% endfor %}' +
+    '<br/>' +    
+ '{% for day in date %}' +
+        '<input type="checkbox" name="{{day}}{{clock}}pm2" id="{{day}}{{clock}}pm2"  value="1"/> <label for="{{day}}{{clock}}pm2">{{clock}}:30 PM</label>' +
+    '{% endfor %}' +
+    '<br/>' +
+    '{% endfor %}'  ;}
+
+</script>
+
+</head>
+<body>
+<h1>{{ meeting.name }}</h1>
+
+<form action="{% url 'meetings:availability_organizer_handler' meeting.id %}" method="post">
+{% csrf_token %}
+    <!--header-->
+	<h2>
+{% for day in date %}
+   {{ day  }} 
+{% endfor %}
+	</h2> 
+	<br/>
+	<!-- time -->
+<div id="mydivtag"></div>
+<input id="gap60" type="radio" name="gap"onclick="changeTo60()" checked ='checked'value="60mins"/>
+<label for ="gap60">60mins</lable>
+<input id="gap30"type="radio" name="gap"onclick="changeTo30()" value="30mins"/>
+<label for ="gap30">30mins</lable>
+
+<br/>
+<input type="submit" value="Next Step" name="submit" />
+</form>
+
+</body>
