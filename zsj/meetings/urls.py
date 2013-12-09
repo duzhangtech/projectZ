@@ -10,7 +10,6 @@ urlpatterns = patterns('',
     url(r'^(?P<meeting_id>\d+)/vote/$', views.vote, name='vote'),
     # organizer_name
     url(r'^(?P<pk>\d+)/nameMtn/$', views.NameView.as_view(), name='nameMtn'),
-    url(r'^(?P<meeting_id>\d+)/name/$', views.name, name='name'),	
     # organizer_availability
     url(r'^(?P<meeting_id>\d+)/availability_organizer/$', views.availability_organizer, name='availability_organizer'),
     url(r'^(?P<meeting_id>\d+)/availability_organizer_handler/$', views.availability_organizer_handler, name='availability_organizer_handler'),

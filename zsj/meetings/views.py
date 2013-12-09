@@ -28,17 +28,13 @@ def index(request):
 def createMtn (request):
     return render(request, 'meetings/createMtn.html');
 
-def create(request):
-    a = Meeting(name = request.POST['meeting_name'], pub_date=timezone.now());
-    a.save();
-    return HttpResponseRedirect(reverse('meetings:nameMtn', args=(a.id,)))
 
-def name(request, meeting_id):
-    p = get_object_or_404(Meeting, pk=meeting_id)
-    p.user_name = request.POST['user_name'];
-    p.save();
-    return HttpResponseRedirect(reverse('meetings:availability_organizer', args=(p.id,)))
- 
+def create(request):
+    new_meeting_object = Meeting(name = request.POST['meeting_name'], pub_date=timezone.now(), user_name=request.POST['user_name']);
+    new_meeting_object.save();
+    return HttpResponseRedirect(reverse('meetings:availability_organizer', args=(new_meeting_object.id,)))
+
+
 def giveDate(num):
     if num == 0: return 'Sunday'
     if num == 1: return 'Monday'
@@ -47,6 +43,8 @@ def giveDate(num):
     if num == 4: return 'Thursday'
     if num == 5: return 'Friday'
     if num == 6: return 'Saturday'
+
+
 #organizer_availability
 def availability_organizer(request, meeting_id):
     p = get_object_or_404(Meeting, pk=meeting_id);
@@ -152,7 +150,4 @@ def vote(request, meeting_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
         return HttpResponseRedirect(reverse('meetings:results', args=(p.id,)))

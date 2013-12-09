@@ -13,7 +13,7 @@ class Meeting (models.Model):
 
 class Choice(models.Model):
 	Meeting = models.ForeignKey(Meeting)
-	name = models.CharField(max_length = 20);
+	name = models.CharField(max_length=20);
 	choice_text = models.CharField(max_length=200)
 	votes = models.IntegerField(default =0)
 	def __str__(self):

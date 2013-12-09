@@ -18,4 +18,3 @@ class MeetingAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Meeting, MeetingAdmin)
-

@@ -1,7 +1,0 @@
-<h1>{{ meeting.name }}</h1>
-<h2>Please type your name</h2>
-<form action="{% url 'meetings:name' meeting.id %}" method="post">
-{% csrf_token %}
-    <input type="textarea" name="user_name" />
-<input type="submit" value="nextStep" />
-</form>
