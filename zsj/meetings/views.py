@@ -8,6 +8,14 @@ from django.views import generic
 from meetings.models import Meeting, Choice
 from datetime import date
 
+# extra functions:
+import string
+import random
+
+def index_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+
+# generic views
 class DetailView(generic.DetailView):
     model = Meeting
     template_name = 'meetings/details.html'
@@ -21,19 +29,18 @@ class NameView(generic.DetailView):
     template_name = 'meetings/nameMtn.html'
 
 #index page
-def index(request):
+def Index(request):
     return render(request, 'meetings/index.html');
 
 #create the mtn and organizer name
-def createMtn (request):
+def CreateMtn (request):
     return render(request, 'meetings/createMtn.html');
 
 
 def create(request):
-    new_meeting_object = Meeting(name = request.POST['meeting_name'], pub_date=timezone.now(), user_name=request.POST['user_name']);
+    new_meeting_object = Meeting(index = index_generator(), name = request.POST['meeting_name'], pub_date=timezone.now(), user_name=request.POST['user_name']);
     new_meeting_object.save();
     return HttpResponseRedirect(reverse('meetings:availability_organizer', args=(new_meeting_object.id,)))
-
 
 def giveDate(num):
     if num == 0: return 'Sunday'
@@ -46,8 +53,8 @@ def giveDate(num):
 
 
 #organizer_availability
-def availability_organizer(request, meeting_id):
-    p = get_object_or_404(Meeting, pk=meeting_id);
+def Availability_organizer(request, meeting_id):
+    p = get_object_or_404(Meeting, id=meeting_id);
     today_date = date.today().weekday()
     global display
     display = [giveDate(today_date),\
@@ -83,8 +90,8 @@ class ShareView(generic.DetailView):
     model = Meeting
     template_name = 'meetings/share.html'
 
-def Availability(request, meeting_id):
-    p = get_object_or_404(Meeting, pk=meeting_id);
+def Availability(request, meeting_index):
+    p = get_object_or_404(Meeting, index=meeting_index);
     today_date = date.today().weekday()
 
     display = [giveDate(today_date),\
@@ -96,8 +103,8 @@ def Availability(request, meeting_id):
                 giveDate((today_date+6)%7)]
     return render(request, 'meetings/availability_general.html', {'date': display, 'meeting': p,})
 
-def availability_general_handler(request, meeting_id):
-    p = get_object_or_404(Meeting, pk=meeting_id);
+def availability_general_handler(request, meeting_index):
+    p = get_object_or_404(Meeting, index=meeting_index);
     availability_organizer = \
         str(request.POST.get('monday8am', 0)) + \
         str(request.POST.get('monday9am', 0)) + \
@@ -120,7 +127,7 @@ def availability_general_handler(request, meeting_id):
 
 #result
 def result(request):
-    p = get_object_or_404(Meeting, pk=request.POST['meeting_id']);
+    p = get_object_or_404(Meeting, index=request.POST['meeting_index']);
     availability = [0,0,0];
     for index in range(0,3):
         for choice in p.choice_set.all():
@@ -138,7 +145,7 @@ def result(request):
     return render(request, 'meetings/result.html', {'meeting':p, 'result': result,});
 
 def vote(request, meeting_id):
-    p = get_object_or_404(Meeting, pk=meeting_id)
+    p = get_object_or_404(Meeting, index=meeting_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -150,4 +157,4 @@ def vote(request, meeting_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('meetings:results', args=(p.id,)))
+        return HttpResponseRedirect(reverse('meetings:results', args=(p.index,)))

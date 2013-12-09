@@ -54,6 +54,7 @@ ROOT_URLCONF = 'zsj.urls'
 
 WSGI_APPLICATION = 'zsj.wsgi.application'
 
+STATIC_URL = '/static/'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

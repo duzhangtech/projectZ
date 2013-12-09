@@ -46,7 +46,7 @@ document.getElementById('mydivtag').innerHTML =
 <body>
 <h1>{{ meeting.name }}</h1>
 
-<form action="{% url 'meetings:availability_general_handler' meeting.id %}" method="post">
+<form action="{% url 'meetings:availability_general_handler' meeting.index %}" method="post">
 {% csrf_token %}
     <!--header-->
     <h3>Please Enter your name</h3>

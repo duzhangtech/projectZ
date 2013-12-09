@@ -4,7 +4,7 @@
 <br/>
 <form action="{% url 'meetings:result' %}" method="post"> 
 {% csrf_token %}
-	<input type="textarea" name="meeting_id" />
+	<input type="textarea" name="meeting_index" />
 	<input type="submit" value="view result" />
 </form>
 <br/>
