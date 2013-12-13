@@ -18,6 +18,7 @@ to-do:
 5. schedule UI
 6. data processing
 7. friendly error 404 page
+8. folder structure formilization
 
                                                     - Du
 
